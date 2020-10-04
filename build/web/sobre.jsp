@@ -1,4 +1,4 @@
-<%@page import="br.edu.fatecpg.poo.Horario"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -7,7 +7,7 @@
         <title>Sobre</title>
     </head>
     <body>
-        <div><a href="index.jsp">Voltar</a></div>
+        <%@include file="WEB-INF/menu.jspf"%>
         <h1>P1 POO</h1>
         <h2>Nome: Vinicius da Silva Nascimento</h2>
         <h2>Matrícula: 1290481913036</h2>

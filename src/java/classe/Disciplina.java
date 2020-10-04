@@ -7,10 +7,10 @@ import java.util.ArrayList;
  * @author Computador
  */
 public class Disciplina {
-    private String nome;
-    private String ementa;
-    private int ciclo;
-    private int nota;
+    public String nome;
+    public String ementa;
+    public int ciclo;
+    public int nota;
     
     
     public Disciplina(String nome, String ementa, int ciclo) {
@@ -53,13 +53,9 @@ public class Disciplina {
    
     public static ArrayList getList(){
         ArrayList<Disciplina> dList = new ArrayList();
-        dList.add(new Disciplina("Matéria1", "Ementa", 4));
-        dList.add(new Disciplina("Matéria2", "Ementa", 4));
-        dList.add(new Disciplina("Matéria3", "Ementa", 4));
-        dList.add(new Disciplina("Matéria4", "Ementa", 4));
-        dList.add(new Disciplina("Matéria5", "Ementa", 4));
-        dList.add(new Disciplina("Matéria6", "Ementa", 4));
+        dList.add(new Disciplina("Materia1", "Ementa", 4));
+
         return dList;
         
-    }
+    }   
 }

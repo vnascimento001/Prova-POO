@@ -2,15 +2,12 @@ package classe;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Computador
- */
+
 public class Disciplina {
-    public String nome;
-    public String ementa;
-    public int ciclo;
-    public int nota;
+    private String nome;
+    private String ementa;
+    private int ciclo;
+    private double nota;
     
     
     public Disciplina(String nome, String ementa, int ciclo) {
@@ -43,19 +40,17 @@ public class Disciplina {
         this.ciclo = ciclo;
     }
 
-    public int getNota() {
+    public double getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(Double nota) {
         this.nota = nota;
     }
-   
-    public static ArrayList getList(){
-        ArrayList<Disciplina> dList = new ArrayList();
-        dList.add(new Disciplina("Materia1", "Ementa", 4));
 
-        return dList;
-        
-    }   
+    public static ArrayList<Disciplina> getList(ArrayList disciplinas){ 
+        ArrayList<Disciplina> mat = disciplinas;
+    return mat;
+    }
+    
 }

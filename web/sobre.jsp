@@ -7,7 +7,7 @@
         <title>Sobre</title>
     </head>
     <body>
-        <%@include file="WEB-INF/menu.jspf"%>
+        <%@include file="WEB-INF/menu/menu.jspf"%>
         <h1>P1 POO</h1>
         <h2>Nome: Vinicius da Silva Nascimento</h2>
         <h2>Matrícula: 1290481913036</h2>

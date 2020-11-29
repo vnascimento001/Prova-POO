@@ -1,6 +1,10 @@
 package classe;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import web.DbListener;
 
 public class Disciplina {
     private String nome;
@@ -8,10 +12,11 @@ public class Disciplina {
     private int ciclo;
     private double nota;
 
-    public Disciplina(String nome, String ementa, int ciclo) {
+    public Disciplina(String nome, String ementa, int ciclo, double nota) {
         this.nome = nome;
         this.ementa = ementa;
         this.ciclo = ciclo;
+        this.nota = nota;
     }
 
     public String getNome() {
@@ -46,14 +51,40 @@ public class Disciplina {
         this.nota = nota;
     }
     
-    public static ArrayList<Disciplina> getList(){
+    public static ArrayList<Disciplina> getList() throws Exception{
         ArrayList<Disciplina> mat = new ArrayList<>();
-        mat.add(new Disciplina("Banco de Dados","Conceitos de Base de Dados.",4));
-        mat.add(new Disciplina("Engenharia de Software III","Conceitos, evolução e importância de arquitetura de software.",4));
-        mat.add(new Disciplina("Programação Orientada a Objetos","Conceitos e evolução da tecnologia de orientação a objetos.",4));
-        mat.add(new Disciplina("Linguagem de Programação IV","Comandos de linguagens usadas na construção e estruturação de sites.",4));
-        mat.add(new Disciplina("Segurança da Informação","Requisitos de segurança de aplicações, de base de dados e de comunicações.",5));
-        mat.add(new Disciplina("Metodologia da Pesquisa Científico-Tecnológica","O Papel da ciência e da tecnologia. Tipos de conhecimento. Método e técnica.",4));
+        Connection con = null; Statement stmt = null; ResultSet rs = null;
+        Exception methodException = null;
+        try{
+            con = DbListener.getConnection();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM disciplinas");
+            while(rs.next()){
+                mat.add(new Disciplina(
+                        rs.getString("nome"),
+                        rs.getString("ementa"),
+                        rs.getInt("ciclo"),
+                        rs.getDouble("nota")
+                ));
+            }
+        }catch(Exception ex){
+            methodException = ex;
+        }finally{
+            try{rs.close();}catch(Exception ex2){}
+            try{stmt.close();}catch(Exception ex2){}
+            try{con.close();}catch(Exception ex2){}
+        }
+        if(methodException!=null) throw methodException;
         return mat;
+    }
+    
+    
+    public static String getCreateStatement(){
+        return "CREATE TABLE IF NOT EXISTS disciplinas("
+                    +"nome VARCHAR(100) PRIMARY KEY,"
+                    +"ementa VARCHAR(200) NOT NULL,"
+                    +"ciclo INTEGER NOT NULL,"
+                    +"nota INTEGER DEFAULT 0"
+                +")";
     }
 }

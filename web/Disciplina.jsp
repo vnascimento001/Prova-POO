@@ -3,29 +3,40 @@
     Created on : 5 de out de 2020, 11:08:55
     Author     : Computador
 --%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="classe.Disciplina"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    ArrayList<Disciplina> mat = (ArrayList<Disciplina>)application.getAttribute("mat");
-    if(mat==null){
-        mat = Disciplina.getList();
-        application.setAttribute("mat", mat);
+   String exceptionMessage = null;
+    
+    if(request.getParameter("Cancelar")!=null){
+        response.sendRedirect(request.getRequestURI());
     }
     
-    Exception requestException = null;
-    if(request.getParameter("mudar")!=null){
-     try{
-         int i = Integer.parseInt(request.getParameter("i"));
-         double nota = Double.parseDouble(request.getParameter("nota"));
-         mat.get(i).setNota(nota);
-         response.sendRedirect(request.getRequestURI());
-     }catch(Exception ex){
-            requestException = ex;
-            }
-    }
-
+    if(request.getParameter("formInsert")!=null){
+    try{
+        String nome = request.getParameter("nome");
+        String ementa = request.getParameter("descricao");
+        int ciclo = Integer.parseInt(request.getParameter(""));
+        double nota = Double.parseDouble(request.getParameter("d"));
+        Disciplina.insert(nome, ementa, ciclo, nota);
+        response.sendRedirect(request.getRequestURI());
+    }catch(Exception ex){
+        exceptionMessage = ex.getLocalizedMessage();
+    }  
+      
+}
+    
+    if(request.getParameter("FormDelete")!=null){
+    try{
+        String nome = request.getParameter("nome");
+        Disciplina.delete(nome); 
+        response.sendRedirect(request.getRequestURI());   
+    }catch(Exception ex){
+        exceptionMessage = ex.getLocalizedMessage();
+    }  
+      
+} 
 %>
 
 <!DOCTYPE html>
@@ -36,32 +47,43 @@
     </head>
     <body>
                 <%@include file="WEB-INF/menu/menu.jspf"%>
-        <%if(requestException!=null){ %>
-        <div style="color:red">Erro ao alterar nota</div>
-        <%}%>
+                
+         <form>
+            <input type="text" placeholder="Disciplina" name="nome">
+            <input type="text" placeholder="Ementa" name="ementa">
+            <input type="number" placeholder="Ciclo" name="ciclo">
+            <input type="submit" name="cria" value="Criar">
+        </form>
         <table border="1">
             <tr>
-                <th>Disciplina</th>
-                <th>Ciclo</th>
+                <th>Nome</th>
                 <th>Ementa</th>
+                <th>Ciclo</th>
                 <th>Nota</th>
-                <th>Mudar nota</th>
+                <th>Editar Nota</th>
+                <th>Ação</th>
             </tr>
-            <%for(int i=0; i<mat.size(); i++){%>
-                <tr>  
-                    <td><%= mat.get(i).getNome() %></td>
-                    <td><%= mat.get(i).getCiclo() %></td>
-                    <td><%= mat.get(i).getEmenta() %></td>
-                    <td><%= mat.get(i).getNota() %></td>
+            <% for(Disciplina disciplina : Disciplina.getList()){ %>
+                <tr>
+                    <td><%=disciplina.getNome()%></td>
+                    <td><%=disciplina.getEmenta()%></td>
+                    <td><%=disciplina.getCiclo()%></td>
+                    <td><%=disciplina.getNota()%></td>
                     <td>
                         <form>
-                            <input type="number" name="nota" />
-                            <input type="submit" name="mudar" value="Alterar"/>
-                            <input type="hidden" name="i" value="<%= i %>"/>
-                        </form>
+                            <input type="hidden" name="id" value="<%=disciplina.getNome()%>">
+                            <input type="number" name="nota" required>
+                            <input type="submit" name="nt" value="Alterar">
+                        </form> 
+                    </td>
+                    <td>
+                        <form>
+                            <input type="hidden" name="id" value="<%=disciplina.getNome()%>">
+                            <input type="submit" name="excluir" value="Excluir">
+                        </form> 
                     </td>
                 </tr>
-            <%}%>
+            <% } %>
         </table>
     </body>
 </html>

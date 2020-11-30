@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package web;
 
 import java.sql.Connection;
@@ -25,21 +20,16 @@ public class DbListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        String etapa = "Inicialização";
         Connection con = null;
         Statement stmt = null;
         try{
-            etapa = "Registro a classe do driver";
             Class.forName(CLASS_NAME);
-            etapa = "Conectar com o banco de dados";
             con = getConnection();
-            etapa = "Preparando o statement";
             stmt = con.createStatement();
-            etapa = "Criar a tabela de disciplinas";
             stmt.execute(Disciplina.getCreateStatement());
-            etapa = "Desconectar do banco de dados";
+            
         }catch(Exception ex){
-            exceptionMessage = etapa+": "+ex.getLocalizedMessage();
+            exceptionMessage = ex.getLocalizedMessage();
         }finally{
             try{stmt.close();}catch(Exception ex2){}
             try{con.close();}catch(Exception ex2){}
